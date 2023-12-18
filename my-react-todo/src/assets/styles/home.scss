@@ -1,3 +1,21 @@
 .home {
-  text-align: center;
+  .title {
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
+  }
+  .content {
+    padding: 20px;
+    .item {
+      height: 60px;
+      display: flex;
+      border-bottom: 1px solid #ededed;
+      .text {
+        flex: 1;
+        height: 60px;
+        line-height: 60px;
+        margin-left: 20px;
+      }
+    }
+  }
 }
