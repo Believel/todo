@@ -35,13 +35,26 @@ const todosSlice = createSlice({
     deleteTodo: (state, action) => {
       const index = state.items.findIndex(todo => todo.id === action.payload)
       state.items.splice(index, 1)
+    },
+    switchToggle: (state, action) => {
+      state.toggleType = action.payload
+    },
+    filterTodos: state => {
+      state.newItems = state.items.filter(todo => {
+        if (state.switchToggle === 'completed' && todo.completed) {
+          return true
+        } else if (state.switchToggle === 'active' && !todo.completed) {
+          return true
+        }
+      })
     }
   }
 })
 export const selectTodos = (state) => state.todos.items;
+export const selectToggleType = (state) => state.todos.toggleType
 
 // 所有的 action creators 和 action types 都自动生成了，reducer 代码也更短更易懂。
 // 在每个 case 中更清楚地展示了实际更新了哪些内容，整体逻辑也更为清晰。
-export const { addTodo, completedTodo, deleteTodo } = todosSlice.actions
+export const { addTodo, completedTodo, deleteTodo, switchToggle, filterTodos } = todosSlice.actions
 
 export default todosSlice.reducer

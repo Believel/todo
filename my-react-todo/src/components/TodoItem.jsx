@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import { completedTodo, deleteTodo } from '../store/todosSlice'
 export default function TodoItem(props) {
   const { todo } = props
-  console.log('todo', todo)
   const dispatch = useDispatch()
   const onChange = () => {
     dispatch(completedTodo(todo.id))
@@ -15,7 +14,7 @@ export default function TodoItem(props) {
   return (
     <div className="item">
       <Checkbox checked={todo.completed} onChange={onChange}/>
-      <div className="text">
+      <div className={todo.completed ? 'text active' : 'text'}>
         {todo.text}
       </div>
       <DeleteOutlined onClick={deleteItem}/>

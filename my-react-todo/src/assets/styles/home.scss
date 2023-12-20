@@ -16,6 +16,12 @@
         line-height: 60px;
         margin-left: 20px;
       }
+      .active {
+        text-decoration: line-through;
+      }
     }
+  }
+  .footer {
+    margin-top: 20px;
   }
 }
