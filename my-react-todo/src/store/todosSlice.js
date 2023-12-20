@@ -3,7 +3,7 @@
 // 可以使用 "mutating" JS 语法，比如 state.value = 123，不需要使用拓展运算符。
 // 内部基于你的 reducer 名称生成 action type 字符串。最后，它在 TypeScript 中表现的很好。
 
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createSelector } from '@reduxjs/toolkit'
 
 const todosSlice = createSlice({
   name: 'todos',
@@ -39,22 +39,28 @@ const todosSlice = createSlice({
     switchToggle: (state, action) => {
       state.toggleType = action.payload
     },
-    filterTodos: state => {
-      state.newItems = state.items.filter(todo => {
-        if (state.switchToggle === 'completed' && todo.completed) {
-          return true
-        } else if (state.switchToggle === 'active' && !todo.completed) {
-          return true
-        }
-      })
+    clearCompletedTodos: state => {
+      state.items = state.items.filter(todo => !todo.completed)
     }
   }
 })
 export const selectTodos = (state) => state.todos.items;
 export const selectToggleType = (state) => state.todos.toggleType
 
+export const selectCompletedFilteredTodos = createSelector(selectTodos, items => {
+  return items.filter(todo => todo.completed)
+})
+
+export const selectActiveFilteredTodos = createSelector(selectTodos, items => {
+  return items.filter(todo => !todo.completed)
+})
+
+export const selectActiveTodosLength = createSelector(selectActiveFilteredTodos, items => {
+  return items.length
+})
+
 // 所有的 action creators 和 action types 都自动生成了，reducer 代码也更短更易懂。
 // 在每个 case 中更清楚地展示了实际更新了哪些内容，整体逻辑也更为清晰。
-export const { addTodo, completedTodo, deleteTodo, switchToggle, filterTodos } = todosSlice.actions
+export const { addTodo, completedTodo, deleteTodo, switchToggle, filterTodos, clearCompletedTodos } = todosSlice.actions
 
 export default todosSlice.reducer
