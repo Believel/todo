@@ -1,25 +1,36 @@
 <script setup>
-import { ref } from 'vue'
-import { ElButton, ElRow, ElCol, ElButtonGroup, ElText } from 'element-plus'
+import { ElButton, ElRow, ElCol, ElButtonGroup, ElText, ElMessage } from 'element-plus'
+import { useShoppingStore } from '../stores/shopping'
 
-const data = ref([
-  { name: '商品1', price: 10, id: 1, count: 1 },
-  { name: '商品2', price: 20, id: 2, count: 2 }
-])
+const shopping = useShoppingStore()
+
+function decrease(id) {
+  shopping.decreaseShopping(id)
+}
+
+function add(item) {
+  shopping.addShopping(item)
+}
 </script>
 
 <template>
   <div class="food-list">
-    <el-row v-for="item in data" :key="item.id" justify="start" >
-      <el-col :span="18">
-        <div class="name">{{ item.name }}(数量{{ item.count }})</div>
-      </el-col>
-      <el-col span="6">
-        <el-button-group>
-          <el-button type="primary">+</el-button>
-          <el-button type="primary">-</el-button>
-        </el-button-group>
-      </el-col>
+    <!-- v-if v-for 如何结合使用 -->
+    <el-row v-for="item in shopping.carList" :key="item.id" justify="start">
+      <template v-if="item.count">
+        <el-col :span="18">
+          <div class="name">
+            {{ item.name }}
+            (数量{{ item.count }})
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <el-button-group>
+            <el-button type="primary" @click="add(item)">+</el-button>
+            <el-button type="primary" @click="decrease(item.id)">-</el-button>
+          </el-button-group>
+        </el-col>
+      </template>
     </el-row>
     <el-text type="danger" size="large">总价：40元 </el-text>
   </div>
