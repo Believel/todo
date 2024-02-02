@@ -5,37 +5,58 @@ export const useShoppingStore = defineStore('shopping', {
     return {
       // 商品列表
       foodList: [
-        { id: 1, name: '洁柔挂抽', price: 30 },
-        { id: 2, name: '哈密瓜', price: 25 },
-        { id: 3, name: '甘肃花牛苹果', price: 29.05 },
-        { id: 4, name: '宝宝辅食碗', price: 14.9 }
+        { id: 1, title: '洁柔挂抽', price: 30 },
+        { id: 2, title: '哈密瓜', price: 25 },
+        { id: 3, title: '甘肃花牛苹果', price: 29.05 },
+        { id: 4, title: '宝宝辅食碗', price: 14.9 }
       ],
       // 购物车列表
-      carList: []
+      carList: [
+        // {
+        //   id: 1,
+        //   quantity: 1
+        // }
+      ]
     }
   },
   getters: {
+    // 总价
     totalPrice: (state) => {
-      return 0
+      return state.carList.reduce((sum, next) => {
+        const food = state.foodList.find(food => food.id === next.id)
+        return sum + next.quantity * food.price
+      }, 0).toFixed(2)
+    },
+    carFoodList: (state) => {
+      return state.carList.map(car => {
+        const food = state.foodList.find(food => food.id === car.id)
+        if (food) {
+          return {
+            ...food,
+            ...car
+          }
+        }
+        return car
+      })
     }
   },
   actions: {
-    addShopping(shopping) {
-      const index = this.carList.findIndex(car => car.id === shopping.id)
+    addShopping(id) {
+      const index = this.carList.findIndex(car => car.id === id)
       if (index > -1) {
         this.carList = this.carList.map(car => {
-          if (car.id === shopping.id) {
+          if (car.id === id) {
             return {
               ...car,
-              count: car.count + 1
+              quantity: car.quantity + 1
             }
           }
           return car
         })
       } else {
         this.carList.push({
-          ...shopping,
-          count: 1
+          id,
+          quantity: 1
         })
       }
     },
@@ -43,10 +64,10 @@ export const useShoppingStore = defineStore('shopping', {
     decreaseShopping(id) {
       this.carList = this.carList.map(car => {
         if (car.id === id) {
-          const count = car.count - 1
+          const quantity = car.quantity - 1
           return {
             ...car,
-            count
+            quantity
           }
         }
         return car

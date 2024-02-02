@@ -7,8 +7,8 @@ import { useShoppingStore } from '../stores/shopping'
 
 const shopping = useShoppingStore()
 
-function addCar(item) {
-  shopping.addShopping(item)
+function addCar(id) {
+  shopping.addShopping(id)
 }
 
 </script>
@@ -17,10 +17,10 @@ function addCar(item) {
   <div class="food-list">
     <el-row v-for="item in shopping.foodList" :key="item.id" justify="start" >
       <el-col :span="18">
-        <div class="name">{{ item.name }}- {{ item.price }}元</div>
+        <div class="name">{{ item.title }}- {{ item.price }}元</div>
       </el-col>
       <el-col :span="6">
-        <el-button @click="addCar(item)">添加购物车</el-button>
+        <el-button @click="addCar(item.id)">添加购物车</el-button>
       </el-col>
     </el-row>
   </div>
