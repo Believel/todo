@@ -1,9 +1,6 @@
 <script setup>
-import { ref } from 'vue'
 import { ElButton, ElRow, ElCol } from 'element-plus'
-// TODO vite中 @ 符如何配置
-// import { useShoppingStore } from '@/stores/shopping'
-import { useShoppingStore } from '../stores/shopping'
+import { useShoppingStore } from '@/stores/shopping'
 
 const shopping = useShoppingStore()
 

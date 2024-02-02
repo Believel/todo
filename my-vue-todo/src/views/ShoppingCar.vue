@@ -1,7 +1,7 @@
 <script setup>
 import { ElCard, ElDivider } from "element-plus";
-import FoodList from "../components/FoodList.vue";
-import CarList from "../components/CarList.vue";
+import FoodList from "@/components/FoodList.vue";
+import CarList from "@/components/CarList.vue";
 </script>
 
 <template>

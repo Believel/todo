@@ -1,6 +1,6 @@
 <script setup>
 import { ElButton, ElRow, ElCol, ElButtonGroup, ElText, ElMessage } from 'element-plus'
-import { useShoppingStore } from '../stores/shopping'
+import { useShoppingStore } from '@/stores/shopping'
 
 const shopping = useShoppingStore()
 
